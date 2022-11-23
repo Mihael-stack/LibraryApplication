@@ -8,6 +8,7 @@ import com.mihael.libraryapplication.representations.ClientErrorInformation;
 import com.mihael.libraryapplication.services.AuthorService;
 import com.mihael.libraryapplication.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,9 +28,9 @@ public class BookRestController {
     public BookRestController(BookService bookService, AuthorService authorService){
         this.bookService = bookService;
     }
-    @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<ClientErrorInformation> rulesWhenGenreIsInvalid(Exception e){
-        ClientErrorInformation error = new ClientErrorInformation(e.toString());
+    @ExceptionHandler({HttpMessageNotReadableException.class, DataIntegrityViolationException.class})
+    public ResponseEntity<ClientErrorInformation> rulesWhenGenreIsInvalidOrDuplicateBook(Exception e){
+        ClientErrorInformation error = new ClientErrorInformation(e.getMessage());
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
