@@ -57,12 +57,6 @@ public class BookServiceProduction implements BookService{
         return this.bookRepository.save(book);
     }
 
-//    @Override
-//    public Book removeAuthorFromBook(Book book, Author author) {
-//        book.removeAuthor(author);
-//        author.removeBook(book);
-//    }
-
     @Override
     public void removeBook(Book book) {
         for(Author author : book.getAuthors()){
