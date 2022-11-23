@@ -2,6 +2,7 @@ package com.mihael.libraryapplication.entity;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.*;
 
 @Entity
@@ -13,6 +14,7 @@ public class Book {
     private String title;
     @ManyToMany(mappedBy = "booksWritten", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     private List<Author> authors;
+    @NotNull
     private Genre genre;
     /* Hibernate requires empty constructor */
     public Book() {

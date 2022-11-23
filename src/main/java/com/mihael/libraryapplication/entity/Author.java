@@ -1,16 +1,24 @@
 package com.mihael.libraryapplication.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 import java.time.LocalDate;
 import java.util.*;
 
 @Entity
+@Table(uniqueConstraints = {
+@UniqueConstraint(columnNames = {"firstName", "lastName", "date"})})
 public class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @NotNull
     private String firstName;
+    @NotNull
     private String lastName;
+    @Past
     private LocalDate date;
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     private List<Book> booksWritten = new ArrayList<>();

@@ -15,6 +15,8 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.*;
 
 
+import javax.validation.Valid;
+
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 @RestController
@@ -49,7 +51,7 @@ public class BookRestController {
     }
 
     @PostMapping("books")
-    public BookRepresentation createNewBook(@RequestBody Book book){
+    public BookRepresentation createNewBook(@RequestBody @Valid Book book){
         this.bookService.createNewBook(book);
         BookRepresentation bookRepresentation = new BookRepresentation(this.bookService.findBookByTitle(book.getTitle()));
         Link link = linkTo(methodOn(BookRestController.class).findBookById(bookRepresentation.getId())).withSelfRel();
@@ -58,7 +60,7 @@ public class BookRestController {
     }
 
     @PutMapping("/books/{id}")
-    public BookRepresentation updateBook(@RequestBody Book book, @PathVariable Long id){
+    public BookRepresentation updateBook(@RequestBody @Valid Book book, @PathVariable Long id){
         book.setId(id);
         this.bookService.updateBook(book);
         BookRepresentation bookRepresentation = new BookRepresentation(this.bookService.findBookById(id));
@@ -67,7 +69,7 @@ public class BookRestController {
         return bookRepresentation;
     }
     @PutMapping("/books/{id}/addAuthor")
-    public BookRepresentation addAuthorToBook(@RequestBody Author author, @PathVariable Long id){
+    public BookRepresentation addAuthorToBook(@RequestBody @Valid Author author, @PathVariable Long id){
         Book book = this.bookService.findBookById(id);
         this.bookService.addAuthorToBook(book,author);
         BookRepresentation bookRepresentation = new BookRepresentation(this.bookService.findBookById(id));
