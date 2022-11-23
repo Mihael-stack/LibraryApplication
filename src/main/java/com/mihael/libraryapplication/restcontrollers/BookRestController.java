@@ -4,13 +4,16 @@ import com.mihael.libraryapplication.entity.Author;
 import com.mihael.libraryapplication.entity.Book;
 import com.mihael.libraryapplication.representations.BookCollectionRepresentation;
 import com.mihael.libraryapplication.representations.BookRepresentation;
+import com.mihael.libraryapplication.representations.ClientErrorInformation;
 import com.mihael.libraryapplication.services.AuthorService;
 import com.mihael.libraryapplication.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
@@ -21,6 +24,11 @@ public class BookRestController {
     @Autowired
     public BookRestController(BookService bookService, AuthorService authorService){
         this.bookService = bookService;
+    }
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ClientErrorInformation> rulesWhenGenreIsInvalid(Exception e){
+        ClientErrorInformation error = new ClientErrorInformation(e.toString());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/books/{id}")

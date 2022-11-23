@@ -24,7 +24,7 @@ public class BookRepresentation extends RepresentationModel {
         this.id = book.getId();
         this.title = book.getTitle();
         this.authors = new AuthorCollectionRepresentation(book.getAuthors());
-        this.genre = book.getGenre();
+        this.genre = book.getGenre().toString();
     }
 
 
@@ -53,7 +53,7 @@ public class BookRepresentation extends RepresentationModel {
     }
 
     public String getGenre() {
-        return genre;
+        return genre.toString();
     }
 
     public void setGenre(String genre) {

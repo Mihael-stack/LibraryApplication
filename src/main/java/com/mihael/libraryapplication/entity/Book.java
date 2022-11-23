@@ -13,13 +13,13 @@ public class Book {
     private String title;
     @ManyToMany(mappedBy = "booksWritten", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     private List<Author> authors;
-    private String genre; // 2 genres are possible only ( fiction and nonfiction )
 
+    private Genre genre;
     /* Hibernate requires empty constructor */
     public Book() {
     }
 
-    public Book(String title, String genre) {
+    public Book(String title, Genre genre) {
         this.title = title;
         this.genre = genre;
         this.authors = new ArrayList<>();
@@ -54,11 +54,11 @@ public class Book {
     }
 
 
-    public String getGenre() {
+    public Genre getGenre() {
         return genre;
     }
 
-    public void setGenre(String genre) {
+    public void setGenre(Genre genre) {
         this.genre = genre;
     }
 
