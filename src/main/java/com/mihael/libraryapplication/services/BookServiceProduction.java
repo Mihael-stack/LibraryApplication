@@ -65,6 +65,9 @@ public class BookServiceProduction implements BookService{
 
     @Override
     public void removeBook(Book book) {
+        for(Author author : book.getAuthors()){
+            author.removeBook(book);
+        }
         this.bookRepository.delete(book);
     }
 

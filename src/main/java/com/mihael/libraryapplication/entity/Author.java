@@ -84,4 +84,8 @@ public class Author {
     public int hashCode() {
         return Objects.hash(firstName, lastName, date);
     }
+
+    public void removeBook(Book book) {
+        this.booksWritten.remove(book);
+    }
 }
