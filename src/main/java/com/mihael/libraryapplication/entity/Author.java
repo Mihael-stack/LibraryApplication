@@ -1,7 +1,6 @@
 package com.mihael.libraryapplication.entity;
 
 import javax.persistence.*;
-import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import java.time.LocalDate;
@@ -10,7 +9,7 @@ import java.util.*;
 @Entity
 @Table(uniqueConstraints = {
 @UniqueConstraint(columnNames = {"firstName", "lastName", "date"})})
-public class Author {
+public class Author implements Comparable<Author>{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -95,5 +94,21 @@ public class Author {
 
     public void removeBook(Book book) {
         this.booksWritten.remove(book);
+    }
+
+    @Override
+    public int compareTo(Author o) {
+        if(this.booksWritten.size() > o.getBooksWritten().size()) return -1;
+        if(this.booksWritten.size() < o.getBooksWritten().size()) return 1;
+        else return 0;
+    }
+
+    @Override
+    public String toString() {
+        return "Author{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", date=" + date +
+                '}';
     }
 }

@@ -1,6 +1,5 @@
 package com.mihael.libraryapplication.intergrationTests;
 
-import com.mihael.libraryapplication.entity.Author;
 import com.mihael.libraryapplication.entity.Book;
 import com.mihael.libraryapplication.entity.Genre;
 import com.mihael.libraryapplication.services.BookService;
@@ -9,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -42,5 +40,13 @@ public class BookServiceIntegrationTest {
         this.bookService.createNewBook(book3);
         this.bookService.createNewBook(book4);
         assertEquals(this.bookService.getAllBooks().size(), listBefore.size() + 4);
+    }
+
+    @Test
+    void findExistingBookById(){
+        assertEquals("Staff of Perfection",this.bookService.findBookById(1L).toString());
+        assertEquals("Chase Without Fear",this.bookService.findBookById(2L).toString());
+        assertEquals("Reads Tweaks",this.bookService.findBookById(3L).toString());
+        assertEquals("Igniting the World",this.bookService.findBookById(4L).toString());
     }
 }

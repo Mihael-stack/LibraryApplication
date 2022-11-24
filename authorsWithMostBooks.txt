@@ -1,0 +1,5 @@
+Author{firstName='Anne', lastName='Blair', date=1990-12-25}
+Author{firstName='Beryl', lastName='Duncan', date=1989-06-10}
+Author{firstName='Christian', lastName='Garner', date=1982-06-10}
+Author{firstName='Clayton', lastName='Walker', date=1985-01-01}
+Author{firstName='Dalton', lastName='Hahn', date=1995-11-24}

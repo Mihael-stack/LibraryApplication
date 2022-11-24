@@ -7,6 +7,7 @@ import com.mihael.libraryapplication.representations.BookRepresentation;
 import com.mihael.libraryapplication.representations.ClientErrorInformation;
 import com.mihael.libraryapplication.services.AuthorService;
 import com.mihael.libraryapplication.services.BookService;
+import com.mihael.libraryapplication.tasks.AuthorsWithMostBooks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.hateoas.Link;
@@ -18,20 +19,29 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+import java.io.IOException;
+
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 @RestController
 public class BookRestController {
     private final BookService bookService;
+    private final AuthorsWithMostBooks task;
 
     @Autowired
-    public BookRestController(BookService bookService, AuthorService authorService){
+    public BookRestController(BookService bookService, AuthorsWithMostBooks task){
         this.bookService = bookService;
+        this.task = task;
     }
     @ExceptionHandler({HttpMessageNotReadableException.class, DataIntegrityViolationException.class})
     public ResponseEntity<ClientErrorInformation> rulesWhenGenreIsInvalidOrDuplicateBook(Exception e){
         ClientErrorInformation error = new ClientErrorInformation(e.getMessage());
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(IOException.class)
+    public ResponseEntity<ClientErrorInformation> rulesWhenTaskIsHavingAnException(Exception e){
+        ClientErrorInformation error = new ClientErrorInformation(e.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.SERVICE_UNAVAILABLE);
     }
 
     @GetMapping("/books/{id}")
@@ -91,5 +101,9 @@ public class BookRestController {
     public Link removeBook(@PathVariable Long id){
         this.bookService.removeBook(this.bookService.findBookById(id));
         return linkTo(methodOn(BookRestController.class).getAllBooks()).withRel("books");
+    }
+    @GetMapping("/task")
+    public void task() throws IOException {
+        task.authorsWithMostBooks();
     }
 }

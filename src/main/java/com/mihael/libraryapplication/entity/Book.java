@@ -76,4 +76,9 @@ public class Book {
     public int hashCode() {
         return Objects.hash(title, genre);
     }
+
+    @Override
+    public String toString(){
+        return this.title;
+    }
 }
