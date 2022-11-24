@@ -58,6 +58,15 @@ public class BookServiceProduction implements BookService{
     }
 
     @Override
+    public Book addExistingAuthorToBook(Long idBook, Long idAuthor) {
+        Author author = this.authorRepository.findAuthorById(idAuthor);
+        Book book = this.bookRepository.findBookById(idBook);
+        book.addAuthor(author);
+        author.addBooks(book);
+        return book;
+    }
+
+    @Override
     public void removeBook(Book book) {
         for(Author author : book.getAuthors()){
             author.removeBook(book);

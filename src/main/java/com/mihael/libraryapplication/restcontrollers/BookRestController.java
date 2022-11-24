@@ -78,6 +78,14 @@ public class BookRestController {
         bookRepresentation.add(link);
         return bookRepresentation;
     }
+    @PutMapping("/books/{id}/addAuthor/{idAuthor}")
+    public BookRepresentation addAuthorToBook(@PathVariable Long id, @PathVariable Long idAuthor){
+        this.bookService.addExistingAuthorToBook(id,idAuthor);
+        BookRepresentation bookRepresentation = new BookRepresentation(this.bookService.findBookById(id));
+        Link link = linkTo(methodOn(BookRestController.class).findBookById(bookRepresentation.getId())).withSelfRel();
+        bookRepresentation.add(link);
+        return bookRepresentation;
+    }
 
     @DeleteMapping("/books/{id}")
     public Link removeBook(@PathVariable Long id){

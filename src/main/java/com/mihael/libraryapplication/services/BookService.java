@@ -13,6 +13,8 @@ public interface BookService {
     Book findBookByTitle(String title);
     Book updateBook(Book book);
     Book addAuthorToBook(Book book, Author author);
+    Book addExistingAuthorToBook(Long idBook, Long idAuthor);
 //    Book removeAuthorFromBook(Book book, Author author);
     void removeBook(Book book);
+
 }

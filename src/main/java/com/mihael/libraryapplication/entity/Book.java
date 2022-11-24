@@ -15,6 +15,7 @@ public class Book {
     @ManyToMany(mappedBy = "booksWritten", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     private List<Author> authors;
     @NotNull
+    @Enumerated(value = EnumType.STRING)
     private Genre genre;
     /* Hibernate requires empty constructor */
     public Book() {
