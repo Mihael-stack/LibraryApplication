@@ -7,18 +7,22 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@Transactional
 public class BookServiceIntegrationTest {
 
     @Autowired
     private BookService bookService;
+
     @Test
     void createBookWithAlreadyExistingTitle(){
+        // This test fails because Hibernate doesn't try to save the objects before the transaction is ending
         Book book1 = new Book("Staff of Perfection", Genre.FICTION);
         Book book2 = new Book("Chase Without Fear", Genre.NONFICTION);
         Book book3 = new Book("Reads Tweaks", Genre.FICTION);
