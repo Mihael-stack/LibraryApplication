@@ -1,5 +1,5 @@
 Author{firstName='Beryl', lastName='Duncan', date=1989-06-10}6
 Author{firstName='Anne', lastName='Blair', date=1990-12-25}6
 Author{firstName='Christian', lastName='Garner', date=1982-06-10}4
-Author{firstName='Dalton', lastName='Hahn', date=1995-11-24}3
 Author{firstName='Clayton', lastName='Walker', date=1985-01-01}3
+Author{firstName='Dalton', lastName='Hahn', date=1995-11-24}3

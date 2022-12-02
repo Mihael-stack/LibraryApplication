@@ -26,12 +26,9 @@ public class AuthorsWithMostBooksSQL {
             fw = new FileWriter(file);
             Query query = this.em.createQuery(
                     "SELECT author, COUNT(author.id) as writtenBooks FROM Author as author INNER JOIN author.booksWritten as books GROUP BY author.id ORDER BY writtenBooks DESC");
-
+            query.setMaxResults(5);
             List<Object[]> list = query.getResultList();
-            int n;
-            if (list.size() > 5) n = 5;
-            else n = list.size();
-            for(int i = 0; i < n; i++){
+            for(int i = 0; i < list.size(); i++){
                 fw.write(list.get(i)[0].toString());
                 fw.write(list.get(i)[1].toString());
                 fw.write(lineSeparator);
