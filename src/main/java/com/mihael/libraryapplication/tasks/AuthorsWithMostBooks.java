@@ -21,6 +21,7 @@ public class AuthorsWithMostBooks {
     public AuthorsWithMostBooks(AuthorService authorService) {
         this.authorService = authorService;
     }
+    // Optimize it using database queries
     @Scheduled(cron = "0 0 09 * * *")
     public void authorsWithMostBooks() throws IOException {
         File file = new File("./authorsWithMostBooks.txt");

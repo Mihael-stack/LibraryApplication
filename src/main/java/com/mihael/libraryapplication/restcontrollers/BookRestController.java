@@ -5,9 +5,9 @@ import com.mihael.libraryapplication.entity.Book;
 import com.mihael.libraryapplication.representations.BookCollectionRepresentation;
 import com.mihael.libraryapplication.representations.BookRepresentation;
 import com.mihael.libraryapplication.representations.ClientErrorInformation;
-import com.mihael.libraryapplication.services.AuthorService;
 import com.mihael.libraryapplication.services.BookService;
 import com.mihael.libraryapplication.tasks.AuthorsWithMostBooks;
+import com.mihael.libraryapplication.tasks.AuthorsWithMostBooksSQL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.hateoas.Link;
@@ -15,21 +15,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.*;
-
-
 import javax.validation.Valid;
-
 import java.io.IOException;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 public class BookRestController {
     private final BookService bookService;
-    private final AuthorsWithMostBooks task;
+    private final AuthorsWithMostBooksSQL task;
 
     @Autowired
-    public BookRestController(BookService bookService, AuthorsWithMostBooks task){
+    public BookRestController(BookService bookService, AuthorsWithMostBooksSQL task){
         this.bookService = bookService;
         this.task = task;
     }
@@ -61,7 +59,7 @@ public class BookRestController {
         return books;
     }
 
-    @PostMapping("books")
+    @PostMapping("/books")
     public BookRepresentation createNewBook(@RequestBody @Valid Book book){
         this.bookService.createNewBook(book);
         BookRepresentation bookRepresentation = new BookRepresentation(this.bookService.findBookByTitle(book.getTitle()));

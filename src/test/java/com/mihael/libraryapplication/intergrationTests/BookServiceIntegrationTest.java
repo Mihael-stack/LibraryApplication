@@ -14,7 +14,6 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@Transactional
 public class BookServiceIntegrationTest {
 
     @Autowired
@@ -33,6 +32,7 @@ public class BookServiceIntegrationTest {
         assertThrows(DataIntegrityViolationException.class, () -> bookService.createNewBook(book4));
     }
     @Test
+    @Transactional
     void createNewBookWithoutAuthor(){
         Book book1 = new Book("newBook", Genre.FICTION);
         Book book2 = new Book("newNewBook", Genre.NONFICTION);
@@ -47,6 +47,7 @@ public class BookServiceIntegrationTest {
     }
 
     @Test
+    @Transactional
     void findExistingBookById(){
         assertEquals("Staff of Perfection",this.bookService.findBookById(1L).toString());
         assertEquals("Chase Without Fear",this.bookService.findBookById(2L).toString());
